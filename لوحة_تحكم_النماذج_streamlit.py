@@ -4,29 +4,32 @@ st.set_page_config(page_title="لوحة تحكم النماذج", layout="wide")
 st.markdown(
     """
     <style>
+    /* ضبط كامل الصفحة على RTL */
     body, .stApp {
         direction: rtl;
         text-align: right;
         font-family: 'Arial', sans-serif;
     }
 
-    .css-18ni7ap.e8zbici2 {
+    /* ضبط عنوان selectbox */
+    label[data-testid="stWidgetLabel"] {
         text-align: right !important;
+        display: block;
     }
 
-    .css-1cpxqw2.edgvbvh3 {
-        text-align: right !important;
-    }
-
-    .stSelectbox > div > div {
-        direction: rtl !important;
-        text-align: right !important;
-    }
-
+    /* ضبط محتوى selectbox */
     div[data-baseweb="select"] {
+        direction: rtl;
+        text-align: right;
         width: 300px !important;
-        margin-right: auto;
-        margin-left: 0;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    /* عناصر الاختيار */
+    .css-1j6rxnh.e1tzin5v1, .css-1wa3eu0-placeholder {
+        direction: rtl;
+        text-align: right;
     }
     </style>
     """,
