@@ -5,6 +5,33 @@ app_code = """
 import streamlit as st
 
 st.set_page_config(page_title="لوحة تحكم النماذج", layout="wide")
+st.markdown(
+    """
+<style >
+body, .stApp {
+    direction: rtl
+    text-align: right
+    font-family: 'Arial', sans-serif
+}
+
+    .css-18ni7ap.e8zbici2 { / * عنوان المهمة * /
+                           text-align: right !important
+                           }
+
+    .css-1cpxqw2.edgvbvh3 { / * الصندوق * /
+                           text-align: right !important
+                           }
+
+    .stSelectbox > div > div {
+        direction: rtl !important
+        text-align: right !important
+    }
+
+    </style >
+    """,
+    unsafe_allow_html=True
+)
+
 
 st.title("🧠 لوحة تحكم النماذج الذكية - المساعد الشخصي ")
 st.markdown("اختر نوع المهمة، وسأرشح لك أفضل نموذج ذكاء اصطناعي لأدائها.")
