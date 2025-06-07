@@ -1,75 +1,88 @@
 import streamlit as st
+import json
+from pathlib import Path
 
+# ------- CONFIGURATION FILE LOAD --------
+def load_recommendations():
+    config_path = Path(__file__).parent / "models.json"
+    with open(config_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+recommendations = load_recommendations()
+
+# ------- PAGE CONFIG & RTL STYLING --------
 st.set_page_config(page_title="لوحة اختيار أفضل النماذج الذكية", layout="wide")
 st.markdown(
     """
     <style>
-    /* ضبط كامل الصفحة على RTL */
     body, .stApp {
         direction: rtl;
         text-align: right;
         font-family: 'Arial', sans-serif;
+        font-size: 1.1rem;
+        background: #fafbfc;
     }
-
-    /* ضبط عنوان selectbox */
     label[data-testid="stWidgetLabel"] {
         text-align: right !important;
         display: block;
+        font-weight: bold;
     }
-
-    /* ضبط محتوى selectbox */
     div[data-baseweb="select"] {
         direction: rtl;
         text-align: right;
-        width: 300px !important;
+        width: 320px !important;
         margin-left: auto !important;
         margin-right: 0 !important;
     }
-
-    /* عناصر الاختيار */
     .css-1j6rxnh.e1tzin5v1, .css-1wa3eu0-placeholder {
         direction: rtl;
         text-align: right;
+    }
+    @media (max-width: 600px) {
+        .stApp, body {
+            font-size: 1.4rem !important;
+        }
+        .stSelectbox {
+            width: 100vw !important;
+        }
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+# ------- MAIN UI --------
 st.title("🧠 لوحة اختيار أفضل النماذج الذكية 🧠")
 st.markdown("اختر نوع المهمة، وسأرشح لك أفضل نموذج ذكاء اصطناعي لأدائها.")
 
-task = st.selectbox(
-    "🎯 اختر المهمة",
-    [
-        "تحليل كود برمجي",
-        "تلخيص  كتب وملفات بي دي اف كبيرة",
-        "بحث موثق مع مصادر",
-        "دردشة ةدعم نفسي",
-        "إنتاج محتوى سريع (للسوشيال ميديا)",
-        "تحليل تقارير وملفات إكسل",
-        "تلخيص فيديو أو ملف صوتي",
-        "شرح دروس أو تعلم ذاتي",
-        "تلخيصات خفيفة بالعربي"
-    ]
+task_options = [r["task"] for r in recommendations]
+task = st.selectbox("🎯 اختر المهمة", task_options)
+
+# ------- RECOMMENDATION SECTION --------
+selected = next((r for r in recommendations if r["task"] == task), None)
+
+if selected:
+    st.subheader("🔍 النموذج المقترح:")
+    st.markdown(f"**{selected['model']}**")
+
+    st.subheader("📌 سبب الترشيح:")
+    st.markdown(selected["reason"])
+
+    # Expandable details if present
+    if "details" in selected:
+        with st.expander("📖 تفاصيل إضافية عن النموذج"):
+            st.markdown(selected["details"])
+    # Optional: link to documentation
+    if "docs" in selected:
+        st.markdown(f"[مزيد من المعلومات]({selected['docs']})", unsafe_allow_html=True)
+else:
+    st.warning("لم يتم العثور على ترشيح لهذه المهمة. يرجى المحاولة بمهمة أخرى أو التواصل مع الدعم.")
+
+# ------- FOOTER --------
+st.markdown("---")
+st.markdown(
+    "<div style='text-align:center; color:gray; font-size:0.9rem'>"
+    "تطوير: فريق الذكاء الاصطناعي | آخر تحديث 2025"
+    "</div>",
+    unsafe_allow_html=True
 )
-
-recommendations = {
-    "تحليل كود برمجي": ("DeepSeek-V2 / GPT-4o", "منطقي، دقيق، متمكن في فهم الكود"),
-    "تلخيص  كتب وملفات بي دي اف كبيرة": ("Claude 3 Sonnet / Command R+", "يستوعب 200K+ توكن ويعطي تلخيص منطقي"),
-    "بحث موثق مع مصادر": ("Perplexity AI", "بحث سريع ودقيق مع مصادر فورية"),
-    "دردشة ودعم نفسي": ("Claude 3 Opus / Pi", "أسلوب إنساني وداعم نفسيًا"),
-    "إنتاج محتوى سريع (للسوشيال ميديا)": ("Grok / Claude Haiku", "ساخر وخفيف وسريع التجاوب"),
-    "تحليل تقارير وملفات إكسل": ("M365 Copilot / GPT-4o", "مدمج مع أدوات مايكروسوفت"),
-    "تلخيص فيديو أو ملف صوتي": ("Gemini 1.5 / GPT-4o", "يفهم وسائط متعددة ويعالجها"),
-    "شرح دروس أو تعلم ذاتي": ("Gemini 1.5 / Phi-2", "يوضّح المفاهيم ويعلّم ببساطة"),
-    "تلخيصات خفيفة بالعربي": ("Manus / ChatGPT 3.5", "تفاعلي وسريع بالعربية")
-}
-
-model, reason = recommendations.get(task, ("-", "-"))
-
-st.subheader("🔍 النموذج المقترح:")
-st.markdown(f"**{model}**")
-
-st.subheader("📌 سبب الترشيح:")
-st.markdown(reason)
