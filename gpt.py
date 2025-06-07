@@ -1,39 +1,40 @@
 import streamlit as st
 
-# Create a basic Streamlit app layout as a string
-app_code = """
-import streamlit as st
-
 st.set_page_config(page_title="لوحة تحكم النماذج", layout="wide")
+
 st.markdown(
     """
-<style >
-body, .stApp {
-    direction: rtl
-    text-align: right
-    font-family: 'Arial', sans-serif
-}
-
-    .css-18ni7ap.e8zbici2 { / * عنوان المهمة * /
-                           text-align: right !important
-                           }
-
-    .css-1cpxqw2.edgvbvh3 { / * الصندوق * /
-                           text-align: right !important
-                           }
-
-    .stSelectbox > div > div {
-        direction: rtl !important
-        text-align: right !important
+    <style>
+    body, .stApp {
+        direction: rtl;
+        text-align: right;
+        font-family: 'Arial', sans-serif;
     }
 
-    </style >
+    .css-18ni7ap.e8zbici2 { /* عنوان المهمة */
+        text-align: right !important;
+    }
+
+    .css-1cpxqw2.edgvbvh3 { /* الصندوق */
+        text-align: right !important;
+    }
+
+    .stSelectbox > div > div {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    div[data-baseweb="select"] {
+        width: 300px !important;
+        margin-right: auto;
+        margin-left: 0;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
 
-
-st.title("🧠 لوحة تحكم النماذج الذكية - المساعد الشخصي ")
+st.title("🧠 لوحة تحكم النماذج الذكية - المساعد الشخصي")
 st.markdown("اختر نوع المهمة، وسأرشح لك أفضل نموذج ذكاء اصطناعي لأدائها.")
 
 task = st.selectbox(
@@ -70,11 +71,3 @@ st.markdown(f"**{model}**")
 
 st.subheader("📌 سبب الترشيح:")
 st.markdown(reason)
-"""
-
-# Save the Streamlit app to a Python file
-app_path = "لوحة_تحكم_النماذج_streamlit.py"
-with open(app_path, "w", encoding="utf-8") as f:
-    f.write(app_code)
-
-app_path

@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(page_title="لوحة تحكم النماذج", layout="wide")
@@ -11,11 +10,11 @@ st.markdown(
         font-family: 'Arial', sans-serif;
     }
 
-    .css-18ni7ap.e8zbici2 { /* عنوان المهمة */
+    .css-18ni7ap.e8zbici2 {
         text-align: right !important;
     }
 
-    .css-1cpxqw2.edgvbvh3 { /* الصندوق */
+    .css-1cpxqw2.edgvbvh3 {
         text-align: right !important;
     }
 
@@ -24,11 +23,15 @@ st.markdown(
         text-align: right !important;
     }
 
+    div[data-baseweb="select"] {
+        width: 300px !important;
+        margin-right: auto;
+        margin-left: 0;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
-
 
 st.title("🧠 لوحة تحكم النماذج الذكية - المساعد الشخصي")
 st.markdown("اختر نوع المهمة، وسأرشح لك أفضل نموذج ذكاء اصطناعي لأدائها.")
