@@ -4,10 +4,13 @@ import json
 from pathlib import Path
 
 # ------- CONFIGURATION FILE LOAD --------
+
+
 def load_recommendations():
     config_path = Path(__file__).parent / "models.json"
     with open(config_path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 recommendations = load_recommendations()
 
@@ -60,7 +63,7 @@ st.markdown(
 )
 
 # ------- MAIN UI --------
-st.title("🧠 لوحة اختيار أفضل النماذج الذكية 🧠")
+st.title("لوحة اختيار أفضل النماذج الذكية 🧠")
 st.markdown("اختر نوع المهمة، وسأرشح لك أفضل نموذج ذكاء اصطناعي لأدائها.")
 
 task_options = [r["task"] for r in recommendations]
@@ -80,15 +83,17 @@ if selected:
         with st.expander("📖 تفاصيل إضافية عن النموذج"):
             st.markdown(selected["details"])
     if "docs" in selected:
-        st.markdown(f"[مزيد من المعلومات]({selected['docs']})", unsafe_allow_html=True)
+        st.markdown(
+            f"[مزيد من المعلومات]({selected['docs']})", unsafe_allow_html=True)
 else:
-    st.warning("لم يتم العثور على ترشيح لهذه المهمة. يرجى المحاولة بمهمة أخرى أو التواصل مع الدعم.")
+    st.warning(
+        "لم يتم العثور على ترشيح لهذه المهمة. يرجى المحاولة بمهمة أخرى أو التواصل مع الدعم.")
 
 # ------- FOOTER --------
 st.markdown("---")
 st.markdown(
     "<div style='text-align:center; color:gray; font-size:0.9rem'>"
-    "تطوير: فريق الذكاء الاصطناعي | آخر تحديث 2025"
+    "تطوير: باحث ومهتم في الذكاء الاصطناعي | آخر تحديث 2025"
     "</div>",
     unsafe_allow_html=True
 )
